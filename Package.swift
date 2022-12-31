@@ -15,11 +15,14 @@ let package = Package(
             targets: ["BHLSwiftUIHelpers"]),
     ],
     dependencies: [
+        .package(url: "https://github.com/BlueHouseLabs/BHLSwiftHelpers.git", from: "0.1.0"),
     ],
     targets: [
         .target(
             name: "BHLSwiftUIHelpers",
-            dependencies: []),
+            dependencies: [
+                .product(name: "BHLSwiftHelpers", package: "BHLSwiftHelpers"),
+            ]),
         .testTarget(
             name: "BHLSwiftUIHelpersTests",
             dependencies: ["BHLSwiftUIHelpers"]),
