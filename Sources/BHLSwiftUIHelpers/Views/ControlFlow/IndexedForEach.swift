@@ -7,13 +7,15 @@
 
 import SwiftUI
 
-public struct IndexedForEach<Data: RandomAccessCollection, Content: View>: View where Data.Index == Int {
+public struct IndexedForEach<Data: RandomAccessCollection, Content: View>: View where Data.Index == Int, Data.Element: Identifiable {
     let values: Data
     @ViewBuilder let builder: (Data.Element, Int) -> Content
     
     public var body: some View {
-        ForEach(0..<values.count, id: \.self) { index in
-            builder(values[index], index)
+        ForEach(values.reduce(into: [(index: Int, value: Data.Element)](), { partialResult, value in
+            partialResult.append( (index: partialResult.count, value: value) )
+        }), id: \.value.id) { index, value in
+            builder(value, index)
         }
     }
     
